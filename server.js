@@ -67,13 +67,6 @@ app.get('/api/dashboard', jwtMW, (req, res) => {
     });
 });
 
-app.get('/api/prices', jwtMW, (req, res) => {
-    res.json({
-        success: true,
-        myContent: 'This is the price $3.99'
-    });
-});
-
 app.get('/api/settings', jwtMW, (req, res) => {
     res.json({
         success: true,
@@ -81,9 +74,10 @@ app.get('/api/settings', jwtMW, (req, res) => {
     });
 });
 
+app.use(express.static(path.join(__dirname)));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.use(function (err, req, res, next) {
@@ -91,7 +85,7 @@ app.use(function (err, req, res, next) {
         res.status(401).json({
             success: false,
             officialError: err,
-            err: 'Username or password is incorrect 2'
+            err: 'Username or password is incorrect'
         });
     } else {
         next(err);
